@@ -12,6 +12,7 @@ public class RemoveDuplicates {
 
     Matcher matcher = pattern.matcher(s);
     while (matcher.find()) {
+      System.out.println("matched group " + matcher.group());
       s = s.replaceAll(matcher.group(), matcher.group(1));
     }
     return s;
