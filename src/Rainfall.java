@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 public class Rainfall {
   public static double mean(String town, String strng) {
     List<Double> temps = parseTemperatures(town, strng);
+    if(temps.size() == 0) return -1;
     return temps.stream().reduce(0d, Double::sum) / temps.size();
   }
 
@@ -29,12 +30,15 @@ public class Rainfall {
     String cityRegex = town + ".*\\n";
     Pattern cityPattern = Pattern.compile(cityRegex);
     Matcher matcher = cityPattern.matcher(data);
-    matcher.find();
-    return matcher.group();
+    if(matcher.find()){
+      return matcher.group();
+    }
+    return "";
   }
 
   public static double variance(String town, String strng) {
     List<Double> temps = parseTemperatures(town, strng);
+    if(temps.size() == 0) return -1;
     double mean = mean(town, strng);
     return temps.stream()
             .map(x -> Math.pow(x - mean, 2))

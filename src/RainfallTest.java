@@ -69,4 +69,9 @@ public class RainfallTest {
     assertFuzzyEquals(Rainfall.variance("London", RainfallTest.data), 57.42833333333374);
     assertFuzzyEquals(Rainfall.variance("Beijing", RainfallTest.data), 4808.37138888889);
   }
+
+  @Test
+  public void townDoesntExist(){
+    assertFuzzyEquals(Rainfall.mean("Hogwarts", RainfallTest.data), -1);
+  }
 }
