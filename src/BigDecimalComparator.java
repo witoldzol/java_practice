@@ -1,8 +1,10 @@
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
-class Solution {
+class BigDecimalComparator {
   public static void main(String[] args) {
     //Input
     Scanner sc = new Scanner(System.in);
@@ -13,21 +15,13 @@ class Solution {
     }
     sc.close();
 
-    //Write your code here
-    BigDecimal[] arr = new BigDecimal[n];
-    for (int i = 0; i < n; i++) {
-      arr[i] = new BigDecimal(s[i]);
-    }
-    Arrays.sort(arr);
+    Comparator<String> comparator = (s1,s2) -> {
+      if(s1 == null || s2 == null) return 0;
+      return new BigDecimal(s1).compareTo(new BigDecimal(s2));
+    };
 
-    for (int j = 0; j < n / 2; j++) {
-      BigDecimal temp = arr[j];
-      arr[j] = arr[arr.length - j - 1];
-      arr[arr.length - j - 1] = temp;
-    }
-    for (BigDecimal b : arr) {
-      System.out.println(b);
-    }
+    Arrays.sort(s, Collections.reverseOrder(comparator));
+
     //Output
     for (int i = 0; i < n; i++) {
       System.out.println(s[i]);
