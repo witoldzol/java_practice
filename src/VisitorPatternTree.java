@@ -124,7 +124,7 @@ class FancyVisitor extends TreeVis {
   }
 }
 
-public class VisitorPatternTree {
+public class Solution {
 
   public static Tree solve() {
     //read the tree from STDIN and return its root as a return value of this function
@@ -132,33 +132,45 @@ public class VisitorPatternTree {
     int n = scanner.nextInt();
     int[] values = new int[n];
     int[] colors = new int[n];
-    Map<Integer, ArrayList<Integer>> edges = new HashMap<>();
+    Map<Integer,ArrayList<Integer>> edges = new HashMap<>();
     //get values
-    for (int i = 0; i < n; i++) {
+    for(int i=0; i<n;i++){
       values[i] = scanner.nextInt();
     }
     //get colors
-    for (int i = 0; i < n; i++) {
+    for(int i=0; i<n;i++){
       colors[i] = scanner.nextInt();
     }
     //get rid of empty line
     scanner.nextLine();
     //get edges ( there are n -1 edges )
-    for (int i = 0; i < n - 1; i++) {
+    for(int i=1; i<n;i++){
       ArrayList<Integer> edge = parseToEdge(scanner.nextLine());
-      System.out.println("edge " + edge.toString());
-    }
+      Integer parent = edge.get(0);
+      Integer child = edge.get(1);
+      System.out.println("parent "+ parent);
+      System.out.println("child"+ child);
 
-    return new TreeNode(55, Color.RED, 0);
+      if(edges.containsKey(parent)){
+        ArrayList<Integer> updated = edges.get(parent);
+        updated.add(child);
+        edges.put(parent,updated);
+      } else {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(child);
+        edges.put(parent,list);
+      }
+    }
+    System.out.println(edges.toString());
+    return new TreeNode(55,Color.RED,0);
   }
 
-  private static ArrayList<Integer> parseToEdge(String str) {
+  private static ArrayList<Integer> parseToEdge(String str){
     String[] chunks = str.split(" ");
     ArrayList<Integer> edge = new ArrayList<>();
-    for (String s : chunks) {
+    for(String s: chunks){
       edge.add(Integer.parseInt(s));
     }
     return edge;
   }
-}
 
