@@ -132,7 +132,9 @@ public class Solution {
     int n = scanner.nextInt();
     int[] values = new int[n];
     int[] colors = new int[n];
+
     Map<Integer,ArrayList<Integer>> edges = new HashMap<>();
+
     //get values
     for(int i=0; i<n;i++){
       values[i] = scanner.nextInt();
@@ -148,8 +150,6 @@ public class Solution {
       ArrayList<Integer> edge = parseToEdge(scanner.nextLine());
       Integer parent = edge.get(0);
       Integer child = edge.get(1);
-      System.out.println("parent "+ parent);
-      System.out.println("child"+ child);
 
       if(edges.containsKey(parent)){
         ArrayList<Integer> updated = edges.get(parent);
@@ -161,7 +161,32 @@ public class Solution {
         edges.put(parent,list);
       }
     }
-    System.out.println(edges.toString());
+
+    TreeMap<Integer,ArrayList<Integer>> sorted = new TreeMap<>();
+    sorted.putAll(edges);
+    //calculate depth of nodes
+    Map<Integer,Integer> depths = new HashMap<>();
+    if(edges.size()>0){
+      depths.put(1,0);
+    }
+    for(int k : sorted.keySet()){
+      for(int child : edges.get(k)) {
+        System.out.println("k is " + k);
+        int parentDepth = depths.get(k);
+        System.out.print("children" + child);
+        // children.forEach( (child) -> {depths.put(child,parentDepth + 1)});
+      }
+    }
+
+    System.out.print(depths);
+
+    for(Map.Entry<Integer,ArrayList<Integer>> entry : sorted.entrySet()){
+      int parent = entry.getKey() -1;
+      ArrayList<Integer> children = entry.getValue();
+
+//            TreeNode node = new TreeNode(values[parent], colors[parent],)
+    }
+
     return new TreeNode(55,Color.RED,0);
   }
 
@@ -174,3 +199,23 @@ public class Solution {
     return edge;
   }
 
+
+  public static void main(String[] args) {
+    Tree root = solve();
+    SumInLeavesVisitor vis1 = new SumInLeavesVisitor();
+    ProductOfRedNodesVisitor vis2 = new ProductOfRedNodesVisitor();
+    FancyVisitor vis3 = new FancyVisitor();
+
+    root.accept(vis1);
+    root.accept(vis2);
+    root.accept(vis3);
+
+    int res1 = vis1.getResult();
+    int res2 = vis2.getResult();
+    int res3 = vis3.getResult();
+
+    System.out.println(res1);
+    System.out.println(res2);
+    System.out.println(res3);
+  }
+}
