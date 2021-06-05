@@ -164,27 +164,29 @@ public class Solution {
 
     TreeMap<Integer,ArrayList<Integer>> sorted = new TreeMap<>();
     sorted.putAll(edges);
-    //calculate depth of nodes
+
     Map<Integer,Integer> depths = new HashMap<>();
     if(edges.size()>0){
       depths.put(1,0);
     }
+
+    // DEPTHS
+    // iterate over sorted key nodes
     for(int k : sorted.keySet()){
+      int parentDepth = depths.get(k);
       for(int child : edges.get(k)) {
-        System.out.println("k is " + k);
-        int parentDepth = depths.get(k);
-        System.out.print("children" + child);
-        // children.forEach( (child) -> {depths.put(child,parentDepth + 1)});
+        // insert depth for children, relative to their parent
+        depths.put(child,parentDepth+1);
       }
     }
 
-    System.out.print(depths);
+    System.out.println(depths);
 
     for(Map.Entry<Integer,ArrayList<Integer>> entry : sorted.entrySet()){
       int parent = entry.getKey() -1;
       ArrayList<Integer> children = entry.getValue();
 
-//            TreeNode node = new TreeNode(values[parent], colors[parent],)
+      TreeNode node = new TreeNode(values[parent], colors[parent],)
     }
 
     return new TreeNode(55,Color.RED,0);
