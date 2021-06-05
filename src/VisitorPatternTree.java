@@ -174,19 +174,20 @@ public class Solution {
     // iterate over sorted key nodes
     for(int k : sorted.keySet()){
       int parentDepth = depths.get(k);
+      Color color = Color.values()[colors[k-1]];
+      TreeNode node = new TreeNode(values[k-1],color,parentDepth);
       for(int child : edges.get(k)) {
         // insert depth for children, relative to their parent
         depths.put(child,parentDepth+1);
+        //check if we have leaf
+        boolean isLeaf = edges.get(child) == null;
+        Color leafColor = Color.values()[colors[child-1]];
+        Tree nodeChild = (isLeaf) ?
+                new TreeLeaf(values[child-1], leafColor, parentDepth+1) :
+                new TreeNode(values[child-1], leafColor, parentDepth+1);
+        //add the child to parent
+        node.addChild(nodeChild);
       }
-    }
-
-    System.out.println(depths);
-
-    for(Map.Entry<Integer,ArrayList<Integer>> entry : sorted.entrySet()){
-      int parent = entry.getKey() -1;
-      ArrayList<Integer> children = entry.getValue();
-
-      TreeNode node = new TreeNode(values[parent], colors[parent],)
     }
 
     return new TreeNode(55,Color.RED,0);
