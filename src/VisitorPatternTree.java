@@ -80,17 +80,23 @@ abstract class TreeVis
 }
 
 class SumInLeavesVisitor extends TreeVis {
+  int result = 0;
+
   public int getResult() {
     //implement this
-    return 0;
+    return result;
   }
 
   public void visitNode(TreeNode node) {
-    //implement this
+    System.out.print("Current result " + this.result);
+    System.out.print("Value " + node.getValue());
+    this.result += node.getValue();
   }
 
   public void visitLeaf(TreeLeaf leaf) {
-    //implement this
+    System.out.print("Current result " + this.result);
+    System.out.print("Value " + leaf.getValue());
+    this.result += leaf.getValue();
   }
 }
 
@@ -164,18 +170,27 @@ public class Solution {
 
     TreeMap<Integer,ArrayList<Integer>> sorted = new TreeMap<>();
     sorted.putAll(edges);
+    1=>[2,3,4]
+    2=>[4,5]
+    4=>[7,8]
+
+    1, 2,3,4
+    2, 4,5
+    3, []
+    4, 7,8
+    5, []
+    6, []
+    7, []
 
     Map<Integer,Integer> depths = new HashMap<>();
     if(edges.size()>0){
       depths.put(1,0);
     }
-
-    // DEPTHS
-    // iterate over sorted key nodes
+    Set<Tree> tree = new HashSet<>();
+    //create nodes & leafes
     for(int k : sorted.keySet()){
       int parentDepth = depths.get(k);
       Color color = Color.values()[colors[k-1]];
-      TreeNode node = new TreeNode(values[k-1],color,parentDepth);
       for(int child : edges.get(k)) {
         // insert depth for children, relative to their parent
         depths.put(child,parentDepth+1);
@@ -189,8 +204,7 @@ public class Solution {
         node.addChild(nodeChild);
       }
     }
-
-    return new TreeNode(55,Color.RED,0);
+    return parent;
   }
 
   private static ArrayList<Integer> parseToEdge(String str){
