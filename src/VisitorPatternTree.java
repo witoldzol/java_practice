@@ -140,15 +140,18 @@ public class Solution {
     Scanner scanner = new Scanner(System.in);
     int numNodes = scanner.nextInt();
 
-    Map<Integer,ArrayList<Integer>> edges = new HashMap<>();
+    /* Read values & colors */
+    values = new int[numNodes];
+    colors = new Color[numNodes];
+    map = new HashMap<>(numNodes);
 
     //get values
-    for(int i=0; i<n;i++){
+    for(int i=0; i<numNodes;i++){
       values[i] = scanner.nextInt();
     }
     //get colors
     for(int i=0; i<n;i++){
-      colors[i] = scanner.nextInt();
+      colors[i] = (scanner.nextInt() == 0) ? Color.RED : Color.GREEN;
     }
     //get rid of empty line
     scanner.nextLine();
