@@ -132,12 +132,13 @@ class FancyVisitor extends TreeVis {
 
 public class Solution {
 
+  private static int[] values;
+  private static Color[] colors;
+  private static HashMap<Integer, HashSet<Integer>> map;
+
   public static Tree solve() {
-    //read the tree from STDIN and return its root as a return value of this function
     Scanner scanner = new Scanner(System.in);
-    int n = scanner.nextInt();
-    int[] values = new int[n];
-    int[] colors = new int[n];
+    int numNodes = scanner.nextInt();
 
     Map<Integer,ArrayList<Integer>> edges = new HashMap<>();
 
@@ -170,18 +171,6 @@ public class Solution {
 
     TreeMap<Integer,ArrayList<Integer>> sorted = new TreeMap<>();
     sorted.putAll(edges);
-    1=>[2,3,4]
-    2=>[4,5]
-    4=>[7,8]
-
-    1, 2,3,4
-    2, 4,5
-    3, []
-    4, 7,8
-    5, []
-    6, []
-    7, []
-
     Map<Integer,Integer> depths = new HashMap<>();
     if(edges.size()>0){
       depths.put(1,0);
@@ -216,23 +205,3 @@ public class Solution {
     return edge;
   }
 
-
-  public static void main(String[] args) {
-    Tree root = solve();
-    SumInLeavesVisitor vis1 = new SumInLeavesVisitor();
-    ProductOfRedNodesVisitor vis2 = new ProductOfRedNodesVisitor();
-    FancyVisitor vis3 = new FancyVisitor();
-
-    root.accept(vis1);
-    root.accept(vis2);
-    root.accept(vis3);
-
-    int res1 = vis1.getResult();
-    int res2 = vis2.getResult();
-    int res3 = vis3.getResult();
-
-    System.out.println(res1);
-    System.out.println(res2);
-    System.out.println(res3);
-  }
-}
