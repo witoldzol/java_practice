@@ -138,73 +138,63 @@ public class Solution {
 
   public static Tree solve() {
     Scanner scanner = new Scanner(System.in);
-    int numNodes = scanner.nextInt();
+    int n = scanner.nextInt();
 
     /* Read values & colors */
-    values = new int[numNodes];
-    colors = new Color[numNodes];
-    map = new HashMap<>(numNodes);
+    values = new int[n];
+    colors = new Color[n];
+    map = new HashMap<>(n);
 
     //get values
-    for(int i=0; i<numNodes;i++){
+    for(int i=0; i<n;i++){
       values[i] = scanner.nextInt();
     }
+
     //get colors
     for(int i=0; i<n;i++){
       colors[i] = (scanner.nextInt() == 0) ? Color.RED : Color.GREEN;
     }
-    //get rid of empty line
-    scanner.nextLine();
-    //get edges ( there are n -1 edges )
-    for(int i=1; i<n;i++){
-      ArrayList<Integer> edge = parseToEdge(scanner.nextLine());
-      Integer parent = edge.get(0);
-      Integer child = edge.get(1);
 
-      if(edges.containsKey(parent)){
-        ArrayList<Integer> updated = edges.get(parent);
-        updated.add(child);
-        edges.put(parent,updated);
-      } else {
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(child);
-        edges.put(parent,list);
-      }
-    }
+    // save edges
+    for(int i=0; i<n-1;i++){
+      int u = scanner.nextInt();
+      int v = scanner.nextInt();
 
-    TreeMap<Integer,ArrayList<Integer>> sorted = new TreeMap<>();
-    sorted.putAll(edges);
-    Map<Integer,Integer> depths = new HashMap<>();
-    if(edges.size()>0){
-      depths.put(1,0);
-    }
-    Set<Tree> tree = new HashSet<>();
-    //create nodes & leafes
-    for(int k : sorted.keySet()){
-      int parentDepth = depths.get(k);
-      Color color = Color.values()[colors[k-1]];
-      for(int child : edges.get(k)) {
-        // insert depth for children, relative to their parent
-        depths.put(child,parentDepth+1);
-        //check if we have leaf
-        boolean isLeaf = edges.get(child) == null;
-        Color leafColor = Color.values()[colors[child-1]];
-        Tree nodeChild = (isLeaf) ?
-                new TreeLeaf(values[child-1], leafColor, parentDepth+1) :
-                new TreeNode(values[child-1], leafColor, parentDepth+1);
-        //add the child to parent
-        node.addChild(nodeChild);
+      //edges are undirected - so we have to save them in both directions
+      HashSet uNeighbours = map.get(u);
+      if(uNeighbours == null) {
+        uNeighbours = new HashSet<>();
+        map.put(u,uNeighbours);
       }
+      uNeighbours.add(v);
+
+      HashSet vNeighbours = map.get(v);
+      if(vNeighbours == null) {
+        vNeighbours = new HashSet<>();
+        map.put(v,vNeighbours);
+      }
+      vNeighbours.add(u);
     }
-    return parent;
+    return null;
   }
 
-  private static ArrayList<Integer> parseToEdge(String str){
-    String[] chunks = str.split(" ");
-    ArrayList<Integer> edge = new ArrayList<>();
-    for(String s: chunks){
-      edge.add(Integer.parseInt(s));
-    }
-    return edge;
-  }
 
+  public static void main(String[] args) {
+    Tree root = solve();
+    SumInLeavesVisitor vis1 = new SumInLeavesVisitor();
+    ProductOfRedNodesVisitor vis2 = new ProductOfRedNodesVisitor();
+    FancyVisitor vis3 = new FancyVisitor();
+
+    root.accept(vis1);
+    root.accept(vis2);
+    root.accept(vis3);
+
+    int res1 = vis1.getResult();
+    int res2 = vis2.getResult();
+    int res3 = vis3.getResult();
+
+    System.out.println(res1);
+    System.out.println(res2);
+    System.out.println(res3);
+  }
+}
