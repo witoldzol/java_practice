@@ -134,67 +134,56 @@ public class Solution {
 
   private static int[] values;
   private static Color[] colors;
-  private static HashMap<Integer, HashSet<Integer>> map;
+  Map<Integer,HashSet<Integer>> map;
 
   public static Tree solve() {
     Scanner scanner = new Scanner(System.in);
     int n = scanner.nextInt();
-
-    /* Read values & colors */
     values = new int[n];
     colors = new Color[n];
-    map = new HashMap<>(n);
+    Map<Integer,HashSet<Integer>> map = new HashMap<>(n);
 
     //get values
     for(int i=0; i<n;i++){
       values[i] = scanner.nextInt();
     }
-
     //get colors
     for(int i=0; i<n;i++){
       colors[i] = (scanner.nextInt() == 0) ? Color.RED : Color.GREEN;
     }
-
-    // save edges
-    for(int i=0; i<n-1;i++){
+    //save edges
+    for(int i=0;i<n-1;i++){
       int u = scanner.nextInt();
       int v = scanner.nextInt();
 
-      //edges are undirected - so we have to save them in both directions
-      HashSet uNeighbours = map.get(u);
-      if(uNeighbours == null) {
-        uNeighbours = new HashSet<>();
-        map.put(u,uNeighbours);
+      // edges are bidirectional, so we have to save them twice
+      HashSet uEdges = map.get(u);
+      if(uEdges == null){
+        uEdges = new HashSet<Integer>();
+        map.put(u, uEdges);
       }
-      uNeighbours.add(v);
+      uEdges.add(v);
 
-      HashSet vNeighbours = map.get(v);
-      if(vNeighbours == null) {
-        vNeighbours = new HashSet<>();
-        map.put(v,vNeighbours);
+      HashSet vEdges = map.get(v);
+      if(vEdges == null){
+        vEdges = new HashSet<Integer>();
+        map.put(v, vEdges);
       }
-      vNeighbours.add(u);
+      vEdges.add(u);
+
     }
+
+
+
     return null;
   }
 
-
-  public static void main(String[] args) {
-    Tree root = solve();
-    SumInLeavesVisitor vis1 = new SumInLeavesVisitor();
-    ProductOfRedNodesVisitor vis2 = new ProductOfRedNodesVisitor();
-    FancyVisitor vis3 = new FancyVisitor();
-
-    root.accept(vis1);
-    root.accept(vis2);
-    root.accept(vis3);
-
-    int res1 = vis1.getResult();
-    int res2 = vis2.getResult();
-    int res3 = vis3.getResult();
-
-    System.out.println(res1);
-    System.out.println(res2);
-    System.out.println(res3);
+  private static ArrayList<Integer> parseToEdge(String str){
+    String[] chunks = str.split(" ");
+    ArrayList<Integer> edge = new ArrayList<>();
+    for(String s: chunks){
+      edge.add(Integer.parseInt(s));
+    }
+    return edge;
   }
-}
+
