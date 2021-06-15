@@ -1,0 +1,56 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+
+
+public class Hourglass {
+  public static void main(String[] args) throws IOException {
+    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
+    List<List<Integer>> arr = new ArrayList<>();
+
+    IntStream.range(0, 6).forEach(i -> {
+      try {
+        arr.add(
+                Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                        .map(Integer::parseInt)
+                        .collect(toList())
+        );
+      } catch (IOException ex) {
+        throw new RuntimeException(ex);
+      }
+    });
+
+    bufferedReader.close();
+
+    int max = Integer.MIN_VALUE;
+    for(int i=0;i<4;i++){
+      for(int k=0;k<4;k++){
+        int result =calculateHourglas(i,k, arr);
+        if(result > max ) max = result;
+      }
+    }
+    System.out.println(max);
+  }
+
+  private static int calculateHourglas(int x, int y, List<List<Integer>> arr){
+    int sum = 0;
+    sum+=arr.get(x).get(y);
+    sum+=arr.get(x).get(y+1);
+    sum+=arr.get(x).get(y+2);
+    sum+=arr.get(x+1).get(y+2);
+    sum+=arr.get(x+2).get(y);
+    sum+=arr.get(x+2).get(y+1);
+    sum+=arr.get(x+2).get(y+2);
+    return sum;
+  }
+}
