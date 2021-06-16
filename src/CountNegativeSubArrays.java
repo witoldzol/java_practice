@@ -12,18 +12,25 @@ public class Solution {
     }
 
     int maxSizeOfSubArray = (int) arraySize/2;
-    int negativeSubArrays = 0;
-
-    for(int i=1;i<=maxSizeOfSubArray;i++){
-      negativeSubArrays += countNegativeSubArrays(arr,i);
+    List<Integer> subArraySizes = new ArrayList<>();
+    // create list of valid sub array sizes
+    subArraySizes.add(1);
+    for(int i=2; i<=maxSizeOfSubArray; i++){
+      if(arr.length%i == 0) subArraySizes.add(i);
     }
+    subArraySizes.add(arr.length);
 
-    System.out.println(negativeSubArrays);
+    int negativeSubArrays = 0;
+    subArraySizes.forEach(subArrSize -> {
+      System.out.println(subArrSize);
+    });
+    //System.out.println(negativeSubArrays);
   }
 
   private static int countNegativeSubArrays(int[] arr, int subArraySize){
     int negativeCount = 0;
-    for(int i=0;i<arr.length;i+=subArraySize){
+    //[1,2, 3,4,  5,6]
+    for(int i=0;i<arr.length - subArraySize;i+=subArraySize){
       int sum = 0;
       for(int k=0;k<subArraySize;k++){
         sum += arr[i+k];
