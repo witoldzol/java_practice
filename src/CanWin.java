@@ -1,19 +1,27 @@
 import java.util.*;
 
-public class CanWin {
+public class Solution {
+  // go forward (i+1)
+// go back (i -1)
+// jump (i + leap)
+  private static boolean canSolve(int leap, int[] game, int index){
+    //is the current index valid
+    if(index < 0 || game[index] == 1) return false;
+    //are we at the edge
+    if(index >= game.length-1) return true;
+    //can we jump to or over the edge
+    if(index + leap >= game.length-1) return true;
+
+    //mark current index as 1 to avoid infinite loop
+    game[index] = 1;
+
+    return /* back */ canSolve(leap, game, index-1) ||
+            /* walk */ canSolve(leap, game, index+1) ||
+            /* jump */ canSolve(leap, game, index + leap);
+  }
+
   public static boolean canWin(int leap, int[] game) {
-    int l = game.length;
-    if(leap>=l) return true;
-
-    int counter = 0;
-    int max = 0;
-
-    for(int i=1;i<l;i++){
-      if(game[i] == 1) counter++;
-      else counter = 0;
-      if(counter>max) max = counter;
-    }
-    return leap>max;
+    return canSolve(leap, game,0);
   }
 
   public static void main(String[] args) {
