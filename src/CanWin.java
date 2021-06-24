@@ -1,18 +1,19 @@
 import java.util.*;
 
-public class Solution {
-
+public class CanWin {
   public static boolean canWin(int leap, int[] game) {
     int l = game.length;
     if(leap>=l) return true;
-    int curr = 0;
-    //go as far as you can by one space
-    for(int i=1;i<l;i++){
-      if(game[leap])
-        if(game[i] == 0) curr = i;
-        else break
-    }
 
+    int counter = 0;
+    int max = 0;
+
+    for(int i=1;i<l;i++){
+      if(game[i] == 1) counter++;
+      else counter = 0;
+      if(counter>max) max = counter;
+    }
+    return leap>max;
   }
 
   public static void main(String[] args) {
