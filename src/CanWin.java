@@ -1,16 +1,13 @@
 import java.util.*;
 
-public class Solution {
-  // go forward (i+1)
-// go back (i -1)
-// jump (i + leap)
+public class CanWin {
   private static boolean canSolve(int leap, int[] game, int index){
     //is the current index valid
     if(index < 0 || game[index] == 1) return false;
     //are we at the edge
     if(index >= game.length-1) return true;
-    //can we jump to or over the edge
-    if(index + leap >= game.length-1) return true;
+    //can we jump over the edge
+    if(index + leap > game.length-1) return true;
 
     //mark current index as 1 to avoid infinite loop
     game[index] = 1;
