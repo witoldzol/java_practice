@@ -26,7 +26,7 @@ class FamilyMember {
   }
 }
 
-public class Solution {
+class BudgetOne {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     int testCases = Integer.parseInt(in.nextLine());

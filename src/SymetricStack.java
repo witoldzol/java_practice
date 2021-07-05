@@ -1,38 +1,34 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.Stack;
 
 public class SymetricStack {
-
-  public static void main(String[] argh) {
-    Scanner sc = new Scanner(System.in);
-
-    while (sc.hasNext()) {
-      List<Character> stack = new ArrayList<>();
-      String input = sc.next();
-      char[] chars = input.toCharArray();
-      evaluate(chars, stack);
-    }
+  public boolean solve(String input) {
+    Stack<Character> stack = new Stack<>();
+    char[] chars = input.toCharArray();
+    return evaluate(chars, stack);
   }
 
-  private static void evaluate(char[] chars, List<Character> stack) {
+  private boolean evaluate(char[] chars, Stack<Character> stack) {
     for (char c : chars) {
       if (stack.isEmpty()) {
-        stack.add(c);
+        stack.push(c);
       } else {
-        int last = (int) stack.get(stack.size() - 1);
+        int last = (int) stack.peek();
         int current = (int) c;
         if (current == last + 1 || current == last + 2) {
-          stack.remove(stack.size() - 1);
+          stack.pop();
         } else {
-          stack.add(c);
+          stack.push(c);
         }
       }
     }
-    if (stack.isEmpty()) {
-      System.out.println("true");
-    } else {
-      System.out.println("false");
-    }
+    return stack.isEmpty();
+  }
+}
+
+class SymmetricStackRegex {
+  public boolean solve(String input){
+    String res = input.replaceAll("\\{\\}|\\[\\]|\\(\\)","");
+    System.out.println("input after replacement " + res);
+    return res.isEmpty();
   }
 }

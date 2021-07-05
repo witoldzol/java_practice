@@ -28,7 +28,7 @@ class Student {
   }
 }
 
-public class Solution {
+class StudentCompare {
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
     int testCases = Integer.parseInt(in.nextLine());
