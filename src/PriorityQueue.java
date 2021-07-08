@@ -44,7 +44,7 @@ class Priorities {
         int id = Integer.parseInt(arr.get(3));
         list.add(new Student(id, name, gp));
       } else {
-
+        if(list.isEmpty()) return;
         Comparator<Student> comparator = new Comparator<Student>() {
           @Override
           public int compare(Student s1, Student s2) {
