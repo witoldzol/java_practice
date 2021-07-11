@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class BasicException {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
     Scanner scanner = new Scanner(System.in);
     try {
       int x = scanner.nextInt();
@@ -13,5 +13,6 @@ public class BasicException {
     } catch (Exception e){
       System.out.println(e.getClass().getCanonicalName());
     }
+    throw new Exception();
   }
 }
